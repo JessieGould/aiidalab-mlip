@@ -30,6 +30,7 @@ class PredictionWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
             value='geometry_opt',
             description='Calculation:',
         )
+        self.calc_type.observe(self._on_calc_change, names='value')
         
         self.info = ipw.HTML(
             """
@@ -48,7 +49,9 @@ class PredictionWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
             button_style='success',
             disabled=True
         )
+        self.run_button.on_click(self._on_run_click)
         
+        self.status = ipw.HTML()
         self.output = ipw.Output()
 
         super().__init__(
@@ -57,7 +60,32 @@ class PredictionWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
                 self.info,
                 self.calc_type,
                 self.run_button,
+                self.status,
                 self.output
             ],
             **kwargs
         )
+    
+    def _on_calc_change(self, change):
+        """Handle calculation type selection."""
+        self.model.calculation_type = change['new']
+        calc_names = {
+            'geometry_opt': 'Geometry Optimization',
+            'md': 'Molecular Dynamics', 
+            'single_point': 'Single Point'
+        }
+        self.status.value = f"<p>Selected: {calc_names[change['new']]}</p>"
+        self.run_button.disabled = False
+    
+    def _on_run_click(self, button):
+        """Handle run button click."""
+        with self.output:
+            self.output.clear_output()
+            calc_type = self.model.calculation_type
+            print(f"Submitting {calc_type}...")
+            print("TODO: Submit aiida-mlip calculation")
+            # TODO: Import and submit appropriate calculation:
+            # - aiida_mlip.calculations.geomopt.Geomopt
+            # - aiida_mlip.calculations.md.MD  
+            # - aiida_mlip.calculations.singlepoint.Singlepoint
+            self.status.value = "<p style='color: orange;'>Calculation submission not yet implemented</p>"

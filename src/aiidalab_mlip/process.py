@@ -19,6 +19,7 @@ class StructureModel(traitlets.HasTraits):
     """Model for structure selection step."""
 
     structure = traitlets.Instance(klass=object, allow_none=True)
+    filename = traitlets.Unicode(default_value="")
 
 
 class TrainingModel(traitlets.HasTraits):
