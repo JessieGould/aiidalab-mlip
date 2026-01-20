@@ -5,7 +5,7 @@ import ipywidgets as ipw
 template = """
 <table>
 <tr>
-  <th style="text-align:center">🧪 Machine Learning Interatomic Potentials (MLIP)</th>
+  <th style="text-align:center"> Machine Learning Interatomic Potentials (MLIP)</th>
 <tr>
   <td valign="top"><ul>
     <li><a href="{appbase}/main.ipynb" target="_blank">Launch MLIP App</a></li>
