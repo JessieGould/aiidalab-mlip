@@ -31,7 +31,7 @@ class MainAppView(ipw.VBox):
         logo = ipw.HTML(
             """
             <div class="app-container logo" style="text-align: center;">
-                <h1>🧪 Machine Learning Interatomic Potentials</h1>
+                <h1> Machine Learning Interatomic Potentials</h1>
             </div>
             """,
             layout={"margin": "auto"},
@@ -86,6 +86,12 @@ class WizardWidget(ipw.VBox):
         self.training_step = TrainingWizardStep(model.training_model)
         self.prediction_step = PredictionWizardStep(model.prediction_model)
         self.results_step = ResultsWizardStep(model.results_model)
+
+        # Link structure to prediction step
+        def update_prediction_structure(change):
+            self.prediction_step._parent_structure = change['new']
+        
+        model.structure_model.observe(update_prediction_structure, names='structure')
 
         self._wizard_app_widget = awb.WizardAppWidget(
             steps=[
